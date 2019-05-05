@@ -17,6 +17,10 @@ function App() {
     setUsers([...usersData, user])
   }
 
+  const deleteUser = id => {
+    setUsers(users.filter(user => user.id !== id))
+  }
+
   useEffect(() => {
    document.title = `current users count: ${users.length}`
   })
@@ -31,7 +35,7 @@ function App() {
         </div>
         <div className="flex-large">
           <h2>View users</h2>
-          <UserTable users={users} />
+          <UserTable users={users} deleteUser={deleteUser} />
         </div>
       </div>
     </div>
