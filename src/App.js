@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import './App.css'
 import UserTable from './components/UserTable'
 import AddUserForm from './components/AddUserForm'
+import EditUserForm from './components/EditUserForm'
 
 function App() {
   const usersData = [
@@ -18,7 +19,24 @@ function App() {
   }
 
   const deleteUser = id => {
+    setEditing(false)
     setUsers(users.filter(user => user.id !== id))
+  }
+
+  const [editing, setEditing] = useState(false)
+
+  const initFormState = { id: null, name: '', username: '' }
+
+  const [currentUser, setCurrentUser] = useState(initFormState)
+
+  const editRow = user => {
+    setEditing(true)
+    setCurrentUser({ id: user.id, name: user.name, username: user.username })
+  }
+
+  const updateUser = (id, updates) => {
+    setEditing(false)
+    setUsers(users.map(user => user.id === id ? updates : user))
   }
 
   useEffect(() => {
@@ -31,11 +49,15 @@ function App() {
       <div className="flex-row">
         <div className="flex-large">
           <h2>Add user</h2>
-          <AddUserForm addUser={addUser} />
+          { editing ? <EditUserForm
+            currentUser={currentUser}
+            setEditing={setEditing}
+            updateUser={updateUser}
+          /> : <AddUserForm addUser={addUser} /> }
         </div>
         <div className="flex-large">
           <h2>View users</h2>
-          <UserTable users={users} deleteUser={deleteUser} />
+          <UserTable users={users} deleteUser={deleteUser} editRow={editRow} />
         </div>
       </div>
     </div>
