@@ -1,8 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import './App.css'
+import UserTable from './components/UserTable'
 
 function App() {
+  const usersData = [
+    { id: 1, name: 'Tania', username: 'floppydiskette' },
+    { id: 2, name: 'Craig', username: 'siliconeidolon' },
+    { id: 3, name: 'Ben', username: 'benisphere' },
+  ]
+
+  const [ users ] = useState(usersData)
+
   return (
     <div className="container">
       <h1>CRUD App with Hooks</h1>
@@ -12,6 +20,7 @@ function App() {
         </div>
         <div className="flex-large">
           <h2>View users</h2>
+          <UserTable users={users} />
         </div>
       </div>
     </div>
