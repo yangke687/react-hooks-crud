@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
 import UserTable from './components/UserTable'
+import AddUserForm from './components/AddUserForm'
 
 function App() {
   const usersData = [
@@ -9,7 +10,16 @@ function App() {
     { id: 3, name: 'Ben', username: 'benisphere' },
   ]
 
-  const [ users ] = useState(usersData)
+  const [ users, setUsers ] = useState(usersData)
+
+  const addUser = user => {
+    user.id = users.length + 1
+    setUsers([...usersData, user])
+  }
+
+  useEffect(() => {
+   document.title = `current users count: ${users.length}`
+  })
 
   return (
     <div className="container">
@@ -17,6 +27,7 @@ function App() {
       <div className="flex-row">
         <div className="flex-large">
           <h2>Add user</h2>
+          <AddUserForm addUser={addUser} />
         </div>
         <div className="flex-large">
           <h2>View users</h2>
